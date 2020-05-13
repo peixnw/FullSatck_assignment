@@ -20,9 +20,9 @@ export class LoginComponent implements OnInit {
   alerts: Alert[];
 
   public result: any = { //登录后接收后台返回的值
+    isAuth: '', //1 登录成功 0 用户不存在 -1 密码错误
     token: '',
     uName: '',
-    isAuth: '', //1 登录成功 0 用户不存在 -1 密码错误
     uType: '' // user, admin
   };
   time: number = 2 * 60 * 60 * 1000;// cookie过期时间两个小时 2*60*60*1000
@@ -53,7 +53,7 @@ export class LoginComponent implements OnInit {
           // TODO: 刷新页面
           // location.reload()
           // console.log('刷新页面')
-          this.alerts.push({ type: 'success', message: 'username or password error.' });
+          this.alerts.push({ type: 'success', message: 'Login successfully' });
           //  根据role来判断跳转的URL
           if (this.result.uType == "user") {
             this.router.navigate(['/userhome']);
@@ -86,3 +86,4 @@ export class LoginComponent implements OnInit {
   }
 
 }
+

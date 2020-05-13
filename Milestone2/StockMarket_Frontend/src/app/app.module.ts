@@ -7,11 +7,14 @@ import { FormsModule } from '@angular/forms' //引入表单-实现模板表单�
 import { UserService } from './services/user.service' //引入服务-实现点击sign in,post提交数据
 import { HttpClientModule } from '@angular/common/http'; // 数据交互
 import { CookieService } from 'ngx-cookie-service'; //引入ngx-cookie-service 来操作cookie
+import { NgxEchartsModule } from 'ngx-echarts'; // echarts
+import { HTTP_INTERCEPTORS } from '@angular/common/http';//拦截器
+
 
 
 import { AppComponent } from './app.component';
 import { LoginComponent } from './components/login/login.component';
-//import { HearderComponent } from "./components/hearder/HearderComponent";
+import { HearderComponent } from './components/hearder/hearder.component';
 import { SignupComponent } from './components/signup/signup.component';
 import { UserhomeComponent } from './components/userhome/userhome.component';
 import { AdminhomeComponent } from './components/adminhome/adminhome.component';
@@ -27,13 +30,15 @@ import { LogoutComponent } from './components/logout/logout.component';
 import { MobileValidatorDirective } from './directives/mobile-validator.directive';
 import { EqualValidatorDirective } from './directives/equal-validator.directive';
 import { EmailValidatorDirective } from './directives/email-validator.directive';
-import { IPOService } from './services/ipo.service';
-import { HearderComponent } from './components/hearder/hearder.component'
+import { IPOService } from './services/ipo.service'
+import { CompareService } from './services/compare.service'
+import { JwtInterceptor } from './interceptor/jwt-interceptor';
+import { EmailConfirmComponent } from './components/email-confirm/email-confirm.component'
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
-  
+    HearderComponent,
     SignupComponent,
     UserhomeComponent,
     AdminhomeComponent,
@@ -49,7 +54,7 @@ import { HearderComponent } from './components/hearder/hearder.component'
     MobileValidatorDirective,
     EqualValidatorDirective,
     EmailValidatorDirective,
-    HearderComponent
+    EmailConfirmComponent
   ],
   imports: [
     BrowserModule,
@@ -57,9 +62,11 @@ import { HearderComponent } from './components/hearder/hearder.component'
     NgbModule,
     FormsModule,
     // ReactiveFormsModule //声明响应式表单
-    HttpClientModule
+    HttpClientModule,
+    NgxEchartsModule
   ],
-  providers: [UserService, CookieService, IPOService],
+  providers: [UserService, CookieService, IPOService, CompareService,
+    { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

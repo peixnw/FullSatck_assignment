@@ -15,6 +15,8 @@ import { ManageCompanyComponent } from './components/adminhome/manage-company/ma
 import { ManageExchangeComponent } from './components/adminhome/manage-exchange/manage-exchange.component';
 import { UpdateIPODetailsComponent } from './components/adminhome/update-ipodetails/update-ipodetails.component';
 import { LoginGuard } from './guard/login.guard' //路由守卫
+import { EmailConfirmComponent } from './components/email-confirm/email-confirm.component'
+
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'signup', component: SignupComponent },
@@ -35,9 +37,9 @@ const routes: Routes = [
       { path: '**', redirectTo: 'import-data' }
     ], canActivate: [LoginGuard]
   },
-  { path: 'changepassword', component: ChangePasswordComponent },
-  { path: 'logout', component: LogoutComponent }
-
+  { path: 'changepassword', component: ChangePasswordComponent, canActivate: [LoginGuard] },
+  { path: 'logout', component: LogoutComponent, canActivate: [LoginGuard] },
+  { path: 'email-confirm', component: EmailConfirmComponent, canActivate: [LoginGuard] }
 
 ];
 
