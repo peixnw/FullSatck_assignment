@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
-import { CompareCompanyList } from '../../../Mock/compare_company'
-import { Compare_Company } from '../../../Model/compare_company'
+import { CompareCompanyList } from '../../Mock/compare_company'
+import { Compare_Company } from '../../Model/compare_company'
 import { CompareService } from '../../../services/compare.service'
 
 import * as $ from 'jquery'

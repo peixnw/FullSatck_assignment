@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { IPO } from '../../../Model/ipo'
-import { IPOlist } from '../../../Mock/ipoList'
+import { IPO } from '../../Model/ipo'
+import { IPOlist } from '../../Mock/ipoList'
 import { IPOService } from '../../../services/ipo.service'
 import { NgbModalConfig, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 

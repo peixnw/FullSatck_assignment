@@ -2,10 +2,10 @@ import { Injectable, PipeTransform } from '@angular/core';
 import { BehaviorSubject, Observable, of, Subject } from 'rxjs';
 
 // import { Country } from './../components/Model/country';
-import { COMPANY } from '../Model/company'
+import { COMPANY } from '../components/Model/company'
 
 // import { COUNTRIES } from '../components/Mock/countries';
-import { CompanyList } from '../Mock/companylist';
+import { CompanyList } from '../components/Mock/companylist';
 
 
 import { DecimalPipe } from '@angular/common';
