@@ -24,22 +24,17 @@ export class SignupComponent implements OnInit {
   onSignUp(value: any, valid: boolean) {
     if (valid) {
       //往后台传送数据
-      this.userService.postSignUp(value).subscribe((data:any) => {
+      this.userService.postSignUp(value).subscribe((data: any) => {
         console.log(data)
-
-           // TODO:判断： 提示信息， 然后跳转
-           if(data.status=="ok"){
-            this.router.navigate(['/login']);
-           }
-           else{
-            this.alerts.push({ type: 'danger', message: 'Please sign up again' });
-            this.router.navigate(['/signup']);
-           }
-
+        if (data.status == "OK") {
+          //跳转到提示信息页面
+          this.router.navigate(['/email-prompt']);
+        }
+        else {
+          this.alerts.push({ type: 'danger', message: 'Please sign up again' });
+          this.router.navigate(['/signup']);
+        }
       })
-
-
-
     }
   }
 

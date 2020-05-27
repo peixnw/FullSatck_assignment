@@ -32,8 +32,11 @@ import { EqualValidatorDirective } from './directives/equal-validator.directive'
 import { EmailValidatorDirective } from './directives/email-validator.directive';
 import { IPOService } from './services/ipo.service'
 import { CompareService } from './services/compare.service'
+import { ManageCompanyService } from './services/manage-company.service'
 import { JwtInterceptor } from './interceptor/jwt-interceptor';
-import { EmailConfirmComponent } from './components/email-confirm/email-confirm.component'
+import { EmailConfirmComponent } from './components/email-confirm/email-confirm.component';
+import { EmailpromptComponent } from './components/emailprompt/emailprompt.component';
+import { ManagecompanyComponent } from './components/adminhome/managecompany/managecompany.component'
 @NgModule({
   declarations: [
     AppComponent,
@@ -54,7 +57,10 @@ import { EmailConfirmComponent } from './components/email-confirm/email-confirm.
     MobileValidatorDirective,
     EqualValidatorDirective,
     EmailValidatorDirective,
-    EmailConfirmComponent
+    EmailConfirmComponent,
+    EmailpromptComponent,
+    ManagecompanyComponent
+
   ],
   imports: [
     BrowserModule,
@@ -65,7 +71,7 @@ import { EmailConfirmComponent } from './components/email-confirm/email-confirm.
     HttpClientModule,
     NgxEchartsModule
   ],
-  providers: [UserService, CookieService, IPOService, CompareService,
+  providers: [UserService, CookieService, IPOService, CompareService, ManageCompanyService,
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true }],
   bootstrap: [AppComponent]
 })

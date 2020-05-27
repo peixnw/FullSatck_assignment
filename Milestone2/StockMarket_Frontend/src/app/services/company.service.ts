@@ -2,10 +2,10 @@ import { Injectable, PipeTransform } from '@angular/core';
 import { BehaviorSubject, Observable, of, Subject } from 'rxjs';
 
 // import { Country } from './../components/Model/country';
-import { COMPANY } from '../components/Model/company'
+import { COMPANY } from '../Model/company'
 
 // import { COUNTRIES } from '../components/Mock/countries';
-import { CompanyList } from '../components/Mock/companylist';
+import { CompanyList } from '../Mock/companylist';
 
 
 import { DecimalPipe } from '@angular/common';
@@ -41,28 +41,17 @@ function sort(companyList: COMPANY[], column: SortColumn, direction: string): CO
 
 // function matches(country: COMPANY, term: string, pipe: PipeTransform) {
 function matches(company: COMPANY, term: string, pipe: PipeTransform) {
-    return company.companyName.toLowerCase().includes(term.toLowerCase())
+    return company.company_name.toLowerCase().includes(term.toLowerCase())
         || company.ceo.toUpperCase().includes(term.toUpperCase())
-        || company.boardofdirectors.toUpperCase().includes(term.toUpperCase())
-        || company.sectorName.toUpperCase().includes(term.toUpperCase())
-        || company.brifewriteup.toUpperCase().includes(term.toUpperCase())
-        || company.companyStatus.toUpperCase().includes(term.toUpperCase())
-        || company.listedinse.toLowerCase().includes(term.toLowerCase())
+        || company.board_of_director.toUpperCase().includes(term.toUpperCase())
+        || company.sector_name.toUpperCase().includes(term.toUpperCase())
+        || company.brife_write_up.toUpperCase().includes(term.toUpperCase())
+        || company.company_status.toUpperCase().includes(term.toUpperCase())
+        || company.listed_in_se.toLowerCase().includes(term.toLowerCase())
         || company.id.toString().includes(term.toString())
-        || company.companyCode.toString().includes(term.toString())
+        || company.company_code.toString().includes(term.toString())
         || company.turnover.toString().includes(term.toString())
-        || company.stockCode.toString().includes(term.toString())
-    // || company.sectorName.toUpperCase().includes(term.toUpperCase())
-    // || pipe.transform(company.id).includes(term)
-    // || pipe.transform(company.companyCode).includes(term)
-    // || pipe.transform(company.turnover).includes(term)
-    // || pipe.transform(company.boardofdirectors).includes(term)
-    // || pipe.transform(company.ceo).includes(term)
-    // || pipe.transform(company.listedinse).includes(term)
-    // // || pipe.transform(company.sectorName).includes(term)
-    // || pipe.transform(company.brifewriteup).includes(term)
-    // || pipe.transform(company.stockCode).includes(term)
-    // || pipe.transform(company.companyStatus).includes(term);
+        || company.stock_code.toString().includes(term.toString())
 
 }
 

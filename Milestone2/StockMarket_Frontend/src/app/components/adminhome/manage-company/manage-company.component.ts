@@ -1,62 +1,110 @@
 import { Component, OnInit } from '@angular/core';
-import { DecimalPipe } from '@angular/common';
-import { QueryList, ViewChildren } from '@angular/core'
-import { Observable } from 'rxjs';
-import { COMPANY } from '../../Model/company';
-import { CompanyService } from '../../../services/company.service';
-import { NgbdSortableHeader, SortEvent } from '../../../directives/sortable.directive';
-import { NgbModalConfig, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { COMPANY } from '../../../Model/company';
+import { ManageCompanyService } from '../../../services/manage-company.service'
+import { NgbModalConfig, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';  //modal
 
 @Component({
-  selector: 'app-manage-company',
-  templateUrl: './manage-company.component.html',
-  styleUrls: ['./manage-company.component.scss'],
-  providers: [CompanyService, DecimalPipe, NgbModalConfig, NgbModal]
-
+  selector: 'app-managecompany',
+  templateUrl: './managecompany.component.html',
+  styleUrls: ['./managecompany.component.scss'],
+  providers: [NgbModalConfig, NgbModal]
 })
-export class ManageCompanyComponent implements OnInit {
-  companyList$: Observable<COMPANY[]>;
-  total$: Observable<number>;
-  @ViewChildren(NgbdSortableHeader) headers: QueryList<NgbdSortableHeader>;
+export class ManagecompanyComponent implements OnInit {
 
-  public currentCompany: any = {}
-  public IpoInfo: any = {
-    stockExchange: '',
-    pricePerShare: '',
-    totalNumber: '',
-    openDateTime: '',
-    remark: ''
+  page = 1;
+  pageSize = 4;
+  collectionSize: any;
+
+  // companyList用于接收后台的数据
+  public companyList: COMPANY[] = []
+  public addedCompany: any = {
+    company_code: '',
+    company_name: '',
+    turnover: null,
+    ceo: '',
+    board_of_director: '',
+    listed_in_se: 'No',
+    sector_name: '',
+    brife_write_up: '',
+    stock_code: '',
+    company_status: 'Inactive'
   }
+  public currentCompany: COMPANY
 
-  constructor(public service: CompanyService, config: NgbModalConfig, private modalService: NgbModal) {
-    // TODO: 从后台获取CompnayList
-    // this.companyList$ = service.getCompanyList;
-    this.companyList$ = service.companyList$;
-    this.total$ = service.total$;
+  modalRef: NgbModalRef  //用于关闭modal
+  constructor(public manageCompanyService: ManageCompanyService, config: NgbModalConfig, private modalService: NgbModal) {
+    // customize default values of modals used by this component tree
     config.backdrop = 'static';
     config.keyboard = false;
   }
 
-  onSort({ column, direction }: SortEvent) {
-    // resetting other headers
-    this.headers.forEach(header => {
-      if (header.sortable !== column) {
-        header.direction = '';
-      }
-    });
-
-    this.service.sortColumn = column;
-    this.service.sortDirection = direction;
-  }
-
-
   ngOnInit(): void {
+    this.getComapnyList()
   }
-
+  //  后台获取 companylist
+  getComapnyList() {
+    this.manageCompanyService.getCompanyList().subscribe((data: any) => {
+      console.log(data)
+      this.companyList = data
+      // 分页
+      this.collectionSize = this.companyList.length
+    })
+  }
+  // 打开AddCompany & EditCompany modal
   openScrollableContent(content: any, value: any) {
+    this.modalRef = this.modalService.open(content);
     this.currentCompany = value
-    console.log(this.currentCompany)
-    this.modalService.open(content);
+  }
+  // 添加公司
+  addCompany() {
+    console.log(this.addedCompany)
+    this.manageCompanyService.addCompany(this.addedCompany).subscribe((data: any) => {
+      console.log(data)
+      if (data.status == "ok") {
+        // 关闭modal
+        this.modalRef.close()
+        // 重新渲染页面
+        this.getComapnyList()
+      } else {
+        alert('add company failed.')
+      }
+    })
   }
 
+  // 更新公司
+  editCompany() {
+    this.manageCompanyService.editCompany(this.currentCompany).subscribe((data: any) => {
+      console.log(data)
+      if (data.status == "ok") {
+        // 关闭modal
+        this.modalRef.close()
+        // 重新渲染页面
+        this.getComapnyList()
+      } else {
+        alert('edit company failed.')
+      }
+
+    })
+  }
+
+  // 停用公司
+  disableCompany(company: COMPANY) {
+    this.manageCompanyService.disableCompany(company).subscribe((data: any) => {
+      console.log(data)
+      if (data.status == "ok") {
+        // 重新渲染页面
+        this.getComapnyList()
+      }
+      else {
+        alert('disable company failed.')
+      }
+    })
+  }
+
+  // 分页
+  get CompanyList(): COMPANY[] {
+    return this.companyList
+      .map((company, i) => ({ id: i + 1, ...company }))
+      .slice((this.page - 1) * this.pageSize, (this.page - 1) * this.pageSize + this.pageSize);
+  }
 }
